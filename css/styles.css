@@ -1462,33 +1462,7 @@ a.quick-value:hover {
 /* ========================================
    BACK TO TOP
    ======================================== */
-.back-to-top {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    width: 45px;
-    height: 45px;
-    background: var(--brand);
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.3s ease;
-    z-index: 999;
-}
-
-.back-to-top.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-.back-to-top:hover {
-    background: var(--brand-dark);
-    transform: translateY(-3px);
-}
+/* OLD STYLES REMOVED - See bottom of file for new iOS-style controls */
 
 /* ========================================
    PAGE HERO
@@ -3596,4 +3570,131 @@ body.menu-open {
 /* Remove grass from specific sections */
 .section-brand.no-grass::after {
     display: none;
+}
+
+/* ========================================
+   PAGE NAV CONTROLS - iOS Style Up/Down
+   ======================================== */
+.page-nav-controls {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.page-nav-controls.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.page-nav-btn {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: all 0.2s ease;
+}
+
+.page-nav-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+}
+
+.page-nav-btn:active {
+    transform: scale(0.95);
+}
+
+/* iOS-style chevrons */
+.chevron-up,
+.chevron-down {
+    width: 14px;
+    height: 14px;
+    border-left: 2.5px solid #1e5631;
+    border-bottom: 2.5px solid #1e5631;
+    transition: all 0.2s ease;
+}
+
+.chevron-up {
+    transform: rotate(135deg) translateX(-1px) translateY(-1px);
+}
+
+.chevron-down {
+    transform: rotate(-45deg) translateX(-1px) translateY(-1px);
+}
+
+.page-nav-btn:hover .chevron-up,
+.page-nav-btn:hover .chevron-down {
+    border-color: #145024;
+}
+
+/* Hide old back-to-top */
+.back-to-top {
+    display: none !important;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .page-nav-controls {
+        bottom: 25px;
+        right: 25px;
+    }
+    
+    .page-nav-btn {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .page-nav-controls {
+        bottom: 20px;
+        right: 16px;
+        gap: 6px;
+    }
+    
+    .page-nav-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+    }
+    
+    .chevron-up,
+    .chevron-down {
+        width: 12px;
+        height: 12px;
+        border-width: 2px;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+    .page-nav-controls {
+        bottom: 16px;
+        right: 12px;
+    }
+    
+    .page-nav-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+    }
 }

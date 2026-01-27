@@ -70,16 +70,36 @@ function initSmoothScroll() {
    BACK TO TOP
    ======================================== */
 function initBackToTop() {
+    // New iOS-style nav controls
+    const navControls = document.getElementById('pageNavControls');
+    const scrollUp = document.getElementById('scrollUp');
+    const scrollDown = document.getElementById('scrollDown');
+    
+    // Fallback for old button
     const backToTop = document.getElementById('backToTop');
-    if (!backToTop) return;
     
-    window.addEventListener('scroll', () => {
-        backToTop.classList.toggle('visible', window.scrollY > 500);
-    });
-    
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    if (navControls && scrollUp && scrollDown) {
+        window.addEventListener('scroll', () => {
+            navControls.classList.toggle('visible', window.scrollY > 300);
+        });
+        
+        scrollUp.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        scrollDown.addEventListener('click', () => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+    } else if (backToTop) {
+        // Fallback for pages with old button
+        window.addEventListener('scroll', () => {
+            backToTop.classList.toggle('visible', window.scrollY > 500);
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 }
 
 /* ========================================
