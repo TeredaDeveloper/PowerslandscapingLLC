@@ -238,6 +238,12 @@ function initLightbox() {
                 <img src="" alt="Full size image" class="lightbox-image">
                 <button class="lightbox-nav lightbox-prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="lightbox-nav lightbox-next"><i class="fas fa-chevron-right"></i></button>
+                <div class="lightbox-swipe-hint">
+                    <span class="swipe-arrow swipe-left"><i class="fas fa-chevron-left"></i></span>
+                    <span class="swipe-text">Swipe</span>
+                    <span class="swipe-arrow swipe-right"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="lightbox-close-hint">Tap to close</div>
             </div>
         `;
         document.body.appendChild(lightbox);
@@ -271,6 +277,12 @@ function initLightbox() {
         img.src = images[currentIndex];
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        // Hide swipe hint after 2 seconds
+        setTimeout(() => {
+            const hint = lightbox.querySelector('.lightbox-swipe-hint');
+            if (hint) hint.style.opacity = '0';
+        }, 2000);
     }
     
     function closeLightbox() {
@@ -316,10 +328,10 @@ function initLightbox() {
     // Close on backdrop click
     backdrop.addEventListener('click', closeLightbox);
     container.addEventListener('click', (e) => {
-        if (e.target === container) closeLightbox();
+        if (e.target === container || e.target === img) closeLightbox();
     });
     
-    // Nav buttons - use both click and touch for mobile
+    // Desktop nav buttons
     prevBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -331,19 +343,6 @@ function initLightbox() {
         showNext(e);
     });
     
-    // Touch handlers for nav buttons (mobile)
-    prevBtn.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        showPrev(e);
-    }, { passive: false });
-    
-    nextBtn.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        showNext(e);
-    }, { passive: false });
-    
     // Keyboard
     document.addEventListener('keydown', (e) => {
         if (!lightbox.classList.contains('active')) return;
@@ -352,34 +351,31 @@ function initLightbox() {
         if (e.key === 'ArrowLeft') showPrev();
     });
     
-    // Touch swipe on image only (not buttons)
+    // Mobile swipe on entire lightbox
     let touchStartX = 0;
     let touchStartY = 0;
-    let touchTarget = null;
     
-    img.addEventListener('touchstart', (e) => {
+    lightbox.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
-        touchTarget = e.target;
     }, { passive: true });
     
-    img.addEventListener('touchend', (e) => {
+    lightbox.addEventListener('touchend', (e) => {
         const touchEndX = e.changedTouches[0].screenX;
         const touchEndY = e.changedTouches[0].screenY;
         const diffX = touchStartX - touchEndX;
         const diffY = touchStartY - touchEndY;
         
-        // Only handle horizontal swipes (not vertical scrolls)
+        // Horizontal swipe
         if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            e.preventDefault();
             if (diffX > 0) showNext();
             else showPrev();
+        } 
+        // Tap to close (minimal movement)
+        else if (Math.abs(diffX) < 15 && Math.abs(diffY) < 15) {
+            closeLightbox();
         }
-    }, { passive: true });
-    
-    // Close on backdrop tap only
-    backdrop.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        closeLightbox();
     }, { passive: false });
 }
 
