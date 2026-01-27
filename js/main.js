@@ -236,15 +236,15 @@ function initLightbox() {
             <div class="lightbox-backdrop"></div>
             <div class="lightbox-container">
                 <img src="" alt="Full size image" class="lightbox-image">
-                <button class="lightbox-nav lightbox-prev"><i class="fas fa-chevron-left"></i></button>
-                <button class="lightbox-nav lightbox-next"><i class="fas fa-chevron-right"></i></button>
-                <div class="lightbox-swipe-hint">
-                    <span class="swipe-arrow swipe-left"><i class="fas fa-chevron-left"></i></span>
-                    <span class="swipe-text">Swipe</span>
-                    <span class="swipe-arrow swipe-right"><i class="fas fa-chevron-right"></i></span>
-                </div>
-                <div class="lightbox-close-hint">Tap to close</div>
             </div>
+            <button class="lightbox-nav lightbox-prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="lightbox-nav lightbox-next"><i class="fas fa-chevron-right"></i></button>
+            <div class="lightbox-swipe-hint">
+                <span class="swipe-arrow swipe-left"><i class="fas fa-chevron-left"></i></span>
+                <span class="swipe-text">Swipe</span>
+                <span class="swipe-arrow swipe-right"><i class="fas fa-chevron-right"></i></span>
+            </div>
+            <div class="lightbox-close-hint">Tap to close</div>
         `;
         document.body.appendChild(lightbox);
     }
@@ -319,22 +319,43 @@ function initLightbox() {
         });
     });
     
-    // Close on backdrop click
-    backdrop.addEventListener('click', closeLightbox);
+    // Close on backdrop click only - not on buttons
+    backdrop.addEventListener('click', (e) => {
+        if (!e.target.closest('.lightbox-nav')) {
+            closeLightbox();
+        }
+    });
     container.addEventListener('click', (e) => {
-        if (e.target === container || e.target === img) closeLightbox();
+        // Only close if clicking directly on container or image, not buttons
+        if ((e.target === container || e.target === img) && !e.target.closest('.lightbox-nav')) {
+            closeLightbox();
+        }
     });
     
-    // Desktop nav buttons
+    // Also prevent lightbox itself from closing when clicking buttons
+    lightbox.addEventListener('click', (e) => {
+        if (e.target.closest('.lightbox-nav')) {
+            e.stopPropagation();
+            return;
+        }
+    });
+    
+    // Desktop nav buttons - stop propagation to prevent close
     prevBtn.addEventListener('click', (e) => {
+        console.log('PREV CLICKED');
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
         showPrev(e);
+        return false;
     });
     nextBtn.addEventListener('click', (e) => {
+        console.log('NEXT CLICKED');
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
         showNext(e);
+        return false;
     });
     
     // Keyboard
@@ -355,6 +376,11 @@ function initLightbox() {
     }
     
     function handleTouchEnd(e) {
+        // Don't close if touching a nav button
+        if (e.target.closest('.lightbox-nav')) {
+            return;
+        }
+        
         const touchEndX = e.changedTouches[0].screenX;
         const touchEndY = e.changedTouches[0].screenY;
         const diffX = touchStartX - touchEndX;
@@ -519,3 +545,62 @@ function initContactForm() {
         }
     });
 }
+
+
+/* ========================================
+   PORTFOLIO CAROUSEL - Infinite Auto-Scroll
+   ======================================== */
+function initPortfolioCarousel() {
+    const track = document.getElementById('portfolioTrack');
+    if (!track) return;
+    
+    const slides = track.querySelectorAll('.carousel-slide');
+    if (slides.length === 0) return;
+    
+    // Clone slides for infinite effect
+    slides.forEach(slide => {
+        const clone = slide.cloneNode(true);
+        track.appendChild(clone);
+    });
+    
+    let scrollPos = 0;
+    const scrollSpeed = 0.5; // pixels per frame - slow and smooth
+    let isHovered = false;
+    let animationId;
+    
+    // Pause on hover
+    track.parentElement.addEventListener('mouseenter', () => isHovered = true);
+    track.parentElement.addEventListener('mouseleave', () => isHovered = false);
+    
+    // Also pause on touch
+    track.parentElement.addEventListener('touchstart', () => isHovered = true);
+    track.parentElement.addEventListener('touchend', () => {
+        setTimeout(() => isHovered = false, 2000); // Resume after 2s
+    });
+    
+    function animate() {
+        if (!isHovered) {
+            scrollPos += scrollSpeed;
+            
+            // Reset when we've scrolled through original slides
+            const halfWidth = track.scrollWidth / 2;
+            if (scrollPos >= halfWidth) {
+                scrollPos = 0;
+            }
+            
+            track.parentElement.scrollLeft = scrollPos;
+        } else {
+            // Update position when user manually scrolls
+            scrollPos = track.parentElement.scrollLeft;
+        }
+        
+        animationId = requestAnimationFrame(animate);
+    }
+    
+    animate();
+}
+
+// Add to DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    initPortfolioCarousel();
+});
