@@ -278,6 +278,13 @@ function initLightbox() {
         document.body.style.overflow = 'hidden';
     }
     
+    // Listen for custom event from carousel
+    document.addEventListener('openLightbox', (e) => {
+        if (e.detail && e.detail.src) {
+            openLightbox(e.detail.src);
+        }
+    });
+    
     function closeLightbox() {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
@@ -548,128 +555,75 @@ function initContactForm() {
 
 
 /* ========================================
-   PORTFOLIO CAROUSEL - Smooth Touch Swipe + Auto-Scroll
+   PORTFOLIO CAROUSEL - Simple CSS animation + click to expand
    ======================================== */
 function initPortfolioCarousel() {
     const carousel = document.querySelector('.portfolio-carousel');
     const track = document.getElementById('portfolioTrack');
     if (!track || !carousel) return;
     
-    const slides = track.querySelectorAll('.carousel-slide');
+    const slides = Array.from(track.querySelectorAll('.carousel-slide'));
     if (slides.length === 0) return;
     
-    // Clone slides for infinite effect
+    // Clone all slides for seamless loop
     slides.forEach(slide => {
         const clone = slide.cloneNode(true);
         track.appendChild(clone);
     });
     
-    // Re-attach click handlers to cloned slides
+    // CSS animation for smooth infinite scroll
+    const totalWidth = slides.reduce((sum, slide) => {
+        return sum + slide.offsetWidth + 20; // 20px gap
+    }, 0);
+    
+    // Create keyframe animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes portfolioScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-${totalWidth}px); }
+        }
+        .carousel-track.animating {
+            animation: portfolioScroll 40s linear infinite;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Start animation
+    track.classList.add('animating');
+    
+    // Pause on hover/touch
+    carousel.addEventListener('mouseenter', () => {
+        track.style.animationPlayState = 'paused';
+    });
+    carousel.addEventListener('mouseleave', () => {
+        track.style.animationPlayState = 'running';
+    });
+    
+    // Mobile touch - pause while touching
+    carousel.addEventListener('touchstart', () => {
+        track.style.animationPlayState = 'paused';
+    }, { passive: true });
+    
+    carousel.addEventListener('touchend', () => {
+        setTimeout(() => {
+            track.style.animationPlayState = 'running';
+        }, 2000);
+    }, { passive: true });
+    
+    // Add click handlers to ALL carousel slides (including clones) for lightbox
     track.querySelectorAll('.carousel-slide').forEach(slide => {
         slide.style.cursor = 'pointer';
-    });
-    
-    let scrollPos = 0;
-    const scrollSpeed = 0.5;
-    let isInteracting = false;
-    let animationId;
-    let touchStartX = 0;
-    let touchStartScrollLeft = 0;
-    let isTouchDragging = false;
-    let touchStartTime = 0;
-    
-    // Calculate half width for reset
-    function getHalfWidth() {
-        return track.scrollWidth / 2;
-    }
-    
-    // Pause on hover (desktop)
-    carousel.addEventListener('mouseenter', () => isInteracting = true);
-    carousel.addEventListener('mouseleave', () => {
-        isInteracting = false;
-        scrollPos = carousel.scrollLeft;
-    });
-    
-    // Touch handling for smooth swipe
-    carousel.addEventListener('touchstart', (e) => {
-        isInteracting = true;
-        isTouchDragging = true;
-        touchStartX = e.touches[0].clientX;
-        touchStartScrollLeft = carousel.scrollLeft;
-        touchStartTime = Date.now();
-        carousel.style.scrollBehavior = 'auto';
-    }, { passive: true });
-    
-    carousel.addEventListener('touchmove', (e) => {
-        if (!isTouchDragging) return;
-        const touchX = e.touches[0].clientX;
-        const diff = touchStartX - touchX;
-        carousel.scrollLeft = touchStartScrollLeft + diff;
-    }, { passive: true });
-    
-    carousel.addEventListener('touchend', (e) => {
-        if (!isTouchDragging) return;
-        
-        const touchEndX = e.changedTouches[0].clientX;
-        const diff = touchStartX - touchEndX;
-        const timeDiff = Date.now() - touchStartTime;
-        
-        // Check if it was a tap (minimal movement, quick touch)
-        if (Math.abs(diff) < 10 && timeDiff < 200) {
-            // It's a tap - let the click handler open lightbox
-            isTouchDragging = false;
-            setTimeout(() => {
-                isInteracting = false;
-                scrollPos = carousel.scrollLeft;
-            }, 100);
-            return;
-        }
-        
-        // It was a swipe - add momentum
-        const velocity = diff / timeDiff;
-        const momentum = velocity * 150;
-        
-        carousel.style.scrollBehavior = 'smooth';
-        carousel.scrollLeft += momentum;
-        
-        isTouchDragging = false;
-        
-        // Resume auto-scroll after delay
-        setTimeout(() => {
-            isInteracting = false;
-            scrollPos = carousel.scrollLeft;
-            // Handle wrap-around
-            const halfWidth = getHalfWidth();
-            if (scrollPos >= halfWidth) {
-                carousel.style.scrollBehavior = 'auto';
-                scrollPos = scrollPos - halfWidth;
-                carousel.scrollLeft = scrollPos;
-            } else if (scrollPos <= 0) {
-                carousel.style.scrollBehavior = 'auto';
-                scrollPos = halfWidth + scrollPos;
-                carousel.scrollLeft = scrollPos;
+        slide.addEventListener('click', (e) => {
+            const img = slide.querySelector('img');
+            if (img && img.src) {
+                e.preventDefault();
+                e.stopPropagation();
+                // Trigger lightbox via custom event
+                document.dispatchEvent(new CustomEvent('openLightbox', { detail: { src: img.src } }));
             }
-        }, 1500);
-    }, { passive: true });
-    
-    // Animation loop
-    function animate() {
-        if (!isInteracting) {
-            scrollPos += scrollSpeed;
-            
-            // Reset when we've scrolled through original slides
-            const halfWidth = getHalfWidth();
-            if (scrollPos >= halfWidth) {
-                scrollPos = 0;
-            }
-            
-            carousel.scrollLeft = scrollPos;
-        }
-        
-        animationId = requestAnimationFrame(animate);
-    }
-    
-    animate();
+        });
+    });
 }
 
 // Add to DOMContentLoaded
