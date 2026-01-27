@@ -4140,6 +4140,8 @@ body.menu-open {
     scrollbar-width: none;
     -ms-overflow-style: none;
     padding: 20px 0;
+    touch-action: pan-x;
+    scroll-behavior: smooth;
 }
 
 .portfolio-carousel::-webkit-scrollbar {

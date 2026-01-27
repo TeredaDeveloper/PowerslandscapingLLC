@@ -231,7 +231,6 @@ function initLightbox() {
     if (!lightbox) {
         lightbox = document.createElement('div');
         lightbox.id = 'lightbox';
-        // NO class - only use ID for styling to avoid conflicts
         lightbox.innerHTML = `
             <div class="lightbox-backdrop"></div>
             <div class="lightbox-container">
@@ -255,8 +254,8 @@ function initLightbox() {
     const prevBtn = lightbox.querySelector('.lightbox-prev');
     const nextBtn = lightbox.querySelector('.lightbox-next');
     
-    // Get ALL clickable images
-    const triggers = document.querySelectorAll('.lightbox-trigger, .portfolio-item img, .gallery-item img, .service-image img, .about-image-main img');
+    // Get ALL clickable images including carousel slides
+    const triggers = document.querySelectorAll('.lightbox-trigger, .portfolio-item img, .gallery-item img, .service-image img, .about-image-main img, .carousel-slide img');
     
     if (triggers.length === 0) return;
     
@@ -307,13 +306,14 @@ function initLightbox() {
         });
     });
     
-    // Also handle clicks on parent elements (portfolio-item, gallery-item)
-    document.querySelectorAll('.portfolio-item, .gallery-item').forEach(item => {
+    // Also handle clicks on parent elements (portfolio-item, gallery-item, carousel-slide)
+    document.querySelectorAll('.portfolio-item, .gallery-item, .carousel-slide').forEach(item => {
         item.style.cursor = 'pointer';
         item.addEventListener('click', (e) => {
             const img = item.querySelector('img');
             if (img && img.src) {
                 e.preventDefault();
+                e.stopPropagation();
                 openLightbox(img.src);
             }
         });
@@ -548,11 +548,12 @@ function initContactForm() {
 
 
 /* ========================================
-   PORTFOLIO CAROUSEL - Infinite Auto-Scroll
+   PORTFOLIO CAROUSEL - Smooth Touch Swipe + Auto-Scroll
    ======================================== */
 function initPortfolioCarousel() {
+    const carousel = document.querySelector('.portfolio-carousel');
     const track = document.getElementById('portfolioTrack');
-    if (!track) return;
+    if (!track || !carousel) return;
     
     const slides = track.querySelectorAll('.carousel-slide');
     if (slides.length === 0) return;
@@ -563,35 +564,106 @@ function initPortfolioCarousel() {
         track.appendChild(clone);
     });
     
-    let scrollPos = 0;
-    const scrollSpeed = 0.5; // pixels per frame - slow and smooth
-    let isHovered = false;
-    let animationId;
-    
-    // Pause on hover
-    track.parentElement.addEventListener('mouseenter', () => isHovered = true);
-    track.parentElement.addEventListener('mouseleave', () => isHovered = false);
-    
-    // Also pause on touch
-    track.parentElement.addEventListener('touchstart', () => isHovered = true);
-    track.parentElement.addEventListener('touchend', () => {
-        setTimeout(() => isHovered = false, 2000); // Resume after 2s
+    // Re-attach click handlers to cloned slides
+    track.querySelectorAll('.carousel-slide').forEach(slide => {
+        slide.style.cursor = 'pointer';
     });
     
+    let scrollPos = 0;
+    const scrollSpeed = 0.5;
+    let isInteracting = false;
+    let animationId;
+    let touchStartX = 0;
+    let touchStartScrollLeft = 0;
+    let isTouchDragging = false;
+    let touchStartTime = 0;
+    
+    // Calculate half width for reset
+    function getHalfWidth() {
+        return track.scrollWidth / 2;
+    }
+    
+    // Pause on hover (desktop)
+    carousel.addEventListener('mouseenter', () => isInteracting = true);
+    carousel.addEventListener('mouseleave', () => {
+        isInteracting = false;
+        scrollPos = carousel.scrollLeft;
+    });
+    
+    // Touch handling for smooth swipe
+    carousel.addEventListener('touchstart', (e) => {
+        isInteracting = true;
+        isTouchDragging = true;
+        touchStartX = e.touches[0].clientX;
+        touchStartScrollLeft = carousel.scrollLeft;
+        touchStartTime = Date.now();
+        carousel.style.scrollBehavior = 'auto';
+    }, { passive: true });
+    
+    carousel.addEventListener('touchmove', (e) => {
+        if (!isTouchDragging) return;
+        const touchX = e.touches[0].clientX;
+        const diff = touchStartX - touchX;
+        carousel.scrollLeft = touchStartScrollLeft + diff;
+    }, { passive: true });
+    
+    carousel.addEventListener('touchend', (e) => {
+        if (!isTouchDragging) return;
+        
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        const timeDiff = Date.now() - touchStartTime;
+        
+        // Check if it was a tap (minimal movement, quick touch)
+        if (Math.abs(diff) < 10 && timeDiff < 200) {
+            // It's a tap - let the click handler open lightbox
+            isTouchDragging = false;
+            setTimeout(() => {
+                isInteracting = false;
+                scrollPos = carousel.scrollLeft;
+            }, 100);
+            return;
+        }
+        
+        // It was a swipe - add momentum
+        const velocity = diff / timeDiff;
+        const momentum = velocity * 150;
+        
+        carousel.style.scrollBehavior = 'smooth';
+        carousel.scrollLeft += momentum;
+        
+        isTouchDragging = false;
+        
+        // Resume auto-scroll after delay
+        setTimeout(() => {
+            isInteracting = false;
+            scrollPos = carousel.scrollLeft;
+            // Handle wrap-around
+            const halfWidth = getHalfWidth();
+            if (scrollPos >= halfWidth) {
+                carousel.style.scrollBehavior = 'auto';
+                scrollPos = scrollPos - halfWidth;
+                carousel.scrollLeft = scrollPos;
+            } else if (scrollPos <= 0) {
+                carousel.style.scrollBehavior = 'auto';
+                scrollPos = halfWidth + scrollPos;
+                carousel.scrollLeft = scrollPos;
+            }
+        }, 1500);
+    }, { passive: true });
+    
+    // Animation loop
     function animate() {
-        if (!isHovered) {
+        if (!isInteracting) {
             scrollPos += scrollSpeed;
             
             // Reset when we've scrolled through original slides
-            const halfWidth = track.scrollWidth / 2;
+            const halfWidth = getHalfWidth();
             if (scrollPos >= halfWidth) {
                 scrollPos = 0;
             }
             
-            track.parentElement.scrollLeft = scrollPos;
-        } else {
-            // Update position when user manually scrolls
-            scrollPos = track.parentElement.scrollLeft;
+            carousel.scrollLeft = scrollPos;
         }
         
         animationId = requestAnimationFrame(animate);
