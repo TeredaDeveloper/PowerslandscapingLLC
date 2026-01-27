@@ -3891,3 +3891,31 @@ body.menu-open {
     80% { transform: translate(1px, 1px); }
     100% { transform: translate(0); }
 }
+
+/* ========================================
+   MOBILE VIBRANCE BOOST
+   ======================================== */
+@media (max-width: 768px) {
+    /* Boost saturation on mobile devices */
+    body {
+        filter: saturate(1.15);
+        -webkit-filter: saturate(1.15);
+    }
+    
+    /* Specific color boosts for key elements */
+    .section-brand,
+    .btn-primary,
+    .navbar,
+    .footer {
+        filter: saturate(1.1);
+        -webkit-filter: saturate(1.1);
+    }
+    
+    /* Make greens pop more */
+    .text-brand,
+    .text-brand-light,
+    .section-tag {
+        filter: saturate(1.2) brightness(1.05);
+        -webkit-filter: saturate(1.2) brightness(1.05);
+    }
+}

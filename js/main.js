@@ -319,9 +319,30 @@ function initLightbox() {
         if (e.target === container) closeLightbox();
     });
     
-    // Nav buttons
-    prevBtn.addEventListener('click', showPrev);
-    nextBtn.addEventListener('click', showNext);
+    // Nav buttons - use both click and touch for mobile
+    prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showPrev(e);
+    });
+    nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showNext(e);
+    });
+    
+    // Touch handlers for nav buttons (mobile)
+    prevBtn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showPrev(e);
+    }, { passive: false });
+    
+    nextBtn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showNext(e);
+    }, { passive: false });
     
     // Keyboard
     document.addEventListener('keydown', (e) => {
@@ -331,22 +352,35 @@ function initLightbox() {
         if (e.key === 'ArrowLeft') showPrev();
     });
     
-    // Touch swipe
+    // Touch swipe on image only (not buttons)
     let touchStartX = 0;
-    lightbox.addEventListener('touchstart', (e) => {
+    let touchStartY = 0;
+    let touchTarget = null;
+    
+    img.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+        touchTarget = e.target;
     }, { passive: true });
     
-    lightbox.addEventListener('touchend', (e) => {
+    img.addEventListener('touchend', (e) => {
         const touchEndX = e.changedTouches[0].screenX;
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) showNext();
+        const touchEndY = e.changedTouches[0].screenY;
+        const diffX = touchStartX - touchEndX;
+        const diffY = touchStartY - touchEndY;
+        
+        // Only handle horizontal swipes (not vertical scrolls)
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            if (diffX > 0) showNext();
             else showPrev();
-        } else if (Math.abs(diff) < 10) {
-            closeLightbox();
         }
     }, { passive: true });
+    
+    // Close on backdrop tap only
+    backdrop.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        closeLightbox();
+    }, { passive: false });
 }
 
 /* ========================================
