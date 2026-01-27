@@ -467,7 +467,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     padding: 50px 0 130px; /* Extra bottom for grass */
 }
 
-/* Grass edge at bottom */
+/* Grass edge at bottom - overlaps into next section */
 .section-brand::after {
     content: '';
     position: absolute;
@@ -3551,3 +3551,44 @@ body.menu-open {
 .navbar .nav-toggle span {
     background: white !important;
 }
+
+/* ========================================
+   GRASS DIVIDERS - Clean consistent style
+   ======================================== */
+
+/* White section going INTO green - green grass at bottom */
+.section-white.has-grass-bottom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background-image: url('../assets/images/grass-divider-green.webp');
+    background-repeat: repeat-x;
+    background-position: bottom center;
+    background-size: auto 100%;
+    z-index: 2;
+}
+
+/* Cream section going INTO green - green grass at bottom */
+.section-cream.has-grass-bottom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background-image: url('../assets/images/grass-divider-green.webp');
+    background-repeat: repeat-x;
+    background-position: bottom center;
+    background-size: auto 100%;
+    z-index: 2;
+}
+
+/* Add padding for grass */
+.section-white.has-grass-bottom,
+.section-cream.has-grass-bottom {
+    padding-bottom: 120px;
+}
+
