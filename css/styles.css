@@ -3592,3 +3592,8 @@ body.menu-open {
     padding-bottom: 120px;
 }
 
+
+/* Remove grass from specific sections */
+.section-brand.no-grass::after {
+    display: none;
+}
