@@ -4288,7 +4288,8 @@ body.menu-open {
     }
     
     .nav-logo-text {
-        display: none !important;
+        display: flex !important;
+        font-size: 12px !important;
     }
 }
 
