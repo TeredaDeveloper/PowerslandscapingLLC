@@ -1570,6 +1570,14 @@ a.quick-value:hover {
     .lightbox-next { right: 10px; }
     
     .nav-logo-text {
+        display: flex;
+    }
+    
+    .nav-logo-text .company-name {
+        font-size: 14px;
+    }
+    
+    .nav-logo-text .tagline {
         display: none;
     }
 }
