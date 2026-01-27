@@ -580,8 +580,8 @@ function initPortfolioCarousel() {
     let touchStartScroll = 0;
     let lastTouchX = 0;
     let lastTouchTime = 0;
-    const autoSpeed = 0.8; // Auto-scroll speed (slower)
-    const friction = 0.95; // Momentum decay
+    const autoSpeed = 0.3; // Auto-scroll speed (nice and slow)
+    const friction = 0.92; // Momentum decay (slower decay = longer glide)
     const minVelocity = 0.1;
     
     // Get total width of original slides
@@ -646,7 +646,7 @@ function initPortfolioCarousel() {
         const now = Date.now();
         const dt = now - lastTouchTime;
         if (dt > 0) {
-            velocity = (lastTouchX - touchX) / dt * 16; // Normalize to ~60fps
+            velocity = (lastTouchX - touchX) / dt * 8; // Gentler momentum
         }
         lastTouchX = touchX;
         lastTouchTime = now;
