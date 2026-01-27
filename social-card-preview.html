@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Social Card Preview</title>
+    <style>
+        body {
+            background: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            color: white;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+        .card {
+            width: 1200px;
+            height: 630px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            margin-bottom: 40px;
+        }
+        
+        /* Option 1: Dark with glow */
+        .card-dark {
+            background: linear-gradient(135deg, #0a1f0a 0%, #1a3a1a 50%, #0d260d 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .card-dark::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(30, 86, 49, 0.4) 0%, transparent 70%);
+            filter: blur(40px);
+        }
+        .card-dark .logo-container {
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 0 30px rgba(30, 86, 49, 0.6)) drop-shadow(0 0 60px rgba(30, 86, 49, 0.3));
+        }
+        .card-dark .logo-container img {
+            width: 280px;
+            height: auto;
+        }
+        .card-dark .tagline {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-top: 30px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+        .card-dark .phone {
+            color: rgba(255,255,255,0.7);
+            font-size: 24px;
+            margin-top: 15px;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Option 2: Clean white */
+        .card-white {
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-white .logo-container img {
+            width: 300px;
+            height: auto;
+        }
+        .card-white .tagline {
+            color: #1e5631;
+            font-size: 36px;
+            font-weight: 600;
+            margin-top: 25px;
+        }
+        .card-white .phone {
+            color: #333;
+            font-size: 28px;
+            margin-top: 10px;
+        }
+        
+        /* Option 3: Green branded */
+        .card-green {
+            background: #1e5631;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-green .logo-container {
+            background: white;
+            padding: 30px 50px;
+            border-radius: 20px;
+        }
+        .card-green .logo-container img {
+            width: 250px;
+            height: auto;
+        }
+        .card-green .tagline {
+            color: #ffffff;
+            font-size: 34px;
+            font-weight: 500;
+            margin-top: 35px;
+            letter-spacing: 1px;
+        }
+        .card-green .phone {
+            color: rgba(255,255,255,0.85);
+            font-size: 26px;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Option 1: Dark with Subtle Green Glow</h2>
+    <p>Professional, modern, the glow makes the logo pop</p>
+    <div class="card card-dark">
+        <div class="logo-container">
+            <img src="assets/logos/logo-clean.png" alt="Powers Landscaping">
+        </div>
+        <div class="tagline">Connecticut's Lawn Care Experts</div>
+        <div class="phone">860-518-1860</div>
+    </div>
+    
+    <h2>Option 2: Clean White</h2>
+    <p>Simple, clean, lets the logo speak</p>
+    <div class="card card-white">
+        <div class="logo-container">
+            <img src="assets/logos/logo-clean.png" alt="Powers Landscaping">
+        </div>
+        <div class="tagline">Connecticut's Lawn Care Experts</div>
+        <div class="phone">860-518-1860</div>
+    </div>
+    
+    <h2>Option 3: Brand Green Background</h2>
+    <p>Strong brand presence, logo on white card</p>
+    <div class="card card-green">
+        <div class="logo-container">
+            <img src="assets/logos/logo-clean.png" alt="Powers Landscaping">
+        </div>
+        <div class="tagline">Connecticut's Lawn Care Experts</div>
+        <div class="phone">860-518-1860</div>
+    </div>
+</body>
+</html>
