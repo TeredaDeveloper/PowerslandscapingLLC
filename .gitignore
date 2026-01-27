@@ -1,29 +1,15 @@
-# Dependencies
-node_modules/
+# Large video files
+assets/Videos/*.mov
+assets/Videos/*.MOV
 
-# Environment files
-.env
-.env.local
-.env.*.local
+# Python cache
+__pycache__/
+*.py[cod]
+
+# OS files
+.DS_Store
+Thumbs.db
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Build outputs
-dist/
-build/
-
-# Logs
-*.log
-npm-debug.log*
-
-# Temporary files
-*.tmp
-*.temp
