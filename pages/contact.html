@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Contact Powers Landscaping LLC for a free estimate. Professional lawn care and landscaping services in Connecticut.">
+    <title>Contact Us | Powers Landscaping LLC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../assets/logos/logo-nav.png" alt="Powers Landscaping" class="nav-logo-img">
+                <div class="nav-logo-text"><span class="company-name">Powers Landscaping</span><span class="tagline">Professional Lawn Care</span></div>
+            </a>
+            <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="gallery.html" class="nav-link">Portfolio</a></li>
+                <li><a href="contact.html" class="nav-link active">Contact</a></li>
+            </ul>
+            <a href="tel:860-518-1860" class="nav-cta"><i class="fas fa-phone"></i> (860) 518-1860</a>
+        </div>
+    </nav>
+
+    <section class="page-hero"><div class="container"><span class="section-tag section-tag-light"><i class="fas fa-envelope"></i> Get In Touch</span><h1>Contact Us</h1><p>Ready for a beautiful lawn? Let's talk!</p></div></section>
+
+    <section class="section-white contact-section">
+        <div class="dot-pattern dot-tl"></div><div class="dot-pattern dot-br"></div>
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <span class="section-tag"><i class="fas fa-headset"></i> Reach Out</span>
+                    <h2>Let's Start Your <span class="text-brand-light">Project</span></h2>
+                    <p>Have questions or ready to get started? We're here to help. Contact us today for a free estimate.</p>
+                    <div class="contact-methods">
+                        <div class="contact-method"><div class="contact-method-icon"><i class="fas fa-phone-alt"></i></div><div><h4>Call Us</h4><a href="tel:860-518-1860">(860) 518-1860</a></div></div>
+                        <div class="contact-method"><div class="contact-method-icon"><i class="fas fa-envelope"></i></div><div><h4>Email Us</h4><a href="mailto:powerslandscapingllc@gmail.com">powerslandscapingllc@gmail.com</a></div></div>
+                        <div class="contact-method"><div class="contact-method-icon"><i class="fas fa-map-marker-alt"></i></div><div><h4>Location</h4><span>146 Springside Ave<br>New Haven, CT</span></div></div>
+                        <div class="contact-method"><div class="contact-method-icon"><i class="fas fa-clock"></i></div><div><h4>Hours</h4><span>Mon - Sat: 7AM - 7PM<br>Sun: Closed</span></div></div>
+                    </div>
+                    <div class="contact-social"><span>Follow Us:</span><div class="social-links"><a href="https://facebook.com/share/1AsdjnTJ7i/" target="_blank"><i class="fab fa-facebook-f"></i></a><a href="https://instagram.com/powerslandscapingllc" target="_blank"><i class="fab fa-instagram"></i></a></div></div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <div class="contact-form-card">
+                        <h3>Get Free Estimate</h3>
+                        <p>Fill out the form and we'll get back to you within 24 hours.</p>
+                        <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+                            <input type="hidden" name="form-name" value="contact">
+                            <p class="hidden" style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+                            <div class="form-row"><div class="form-group"><label for="firstName">First Name *</label><input type="text" id="firstName" name="firstName" required></div><div class="form-group"><label for="lastName">Last Name *</label><input type="text" id="lastName" name="lastName" required></div></div>
+                            <div class="form-row"><div class="form-group"><label for="email">Email *</label><input type="email" id="email" name="email" required></div><div class="form-group"><label for="phone">Phone *</label><input type="tel" id="phone" name="phone" required></div></div>
+                            <div class="form-group"><label for="address">Property Address</label><input type="text" id="address" name="address" placeholder="123 Main St, City, CT"></div>
+                            <div class="form-group"><label for="service">Service Interested In</label><select id="service" name="service"><option value="">Select a service...</option><option value="lawn-mowing">Lawn Mowing</option><option value="mulching">Mulching</option><option value="aerating">Aeration & Overseeding</option><option value="hedge-trimming">Shrub & Hedge Trimming</option><option value="seasonal-cleanup">Seasonal Cleanup</option><option value="full-maintenance">Full Property Maintenance</option><option value="other">Other</option></select></div>
+                            <div class="form-group"><label for="message">Tell Us About Your Project</label><textarea id="message" name="message" rows="4" placeholder="Describe your lawn, property size, and what you're looking for..."></textarea></div>
+                            <div class="form-group"><label>Upload Photos of Your Property (Optional)</label><div class="dropzone" id="dropzone"><i class="fas fa-cloud-upload-alt"></i><p>Drag & drop photos here or <span>click to browse</span></p><small>Max 10MB per file. Images only.</small></div><input type="file" id="fileInput" name="photos" multiple accept="image/*" style="display: none;"><div class="file-list" id="fileList"></div></div>
+                            <button type="submit" class="btn btn-primary btn-full">Send Message <i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2997.7893054638247!2d-72.93048982347373!3d41.30848097130907!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e7d84b1e67c5d7%3A0x4b9e3b3e9e9e9e9e!2s146%20Springside%20Ave%2C%20New%20Haven%2C%20CT%2006515!5e0!3m2!1sen!2sus!4v1706000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe></section>
+
+    <footer class="footer">
+        <div class="footer-main"><div class="container"><div class="footer-grid">
+            <div class="footer-brand"><a href="../index.html" class="footer-logo"><img src="../assets/logos/logo-nav.png" alt="Powers Landscaping LLC" class="footer-logo-img"><div class="footer-logo-text"><span class="company-name">Powers Landscaping</span><span class="tagline">Professional Lawn Care</span></div></a><p>Transform your yard into paradise with Connecticut's trusted landscaping professionals.</p><div class="footer-social"><a href="https://facebook.com/share/1AsdjnTJ7i/" target="_blank"><i class="fab fa-facebook-f"></i></a><a href="https://instagram.com/powerslandscapingllc" target="_blank"><i class="fab fa-instagram"></i></a></div></div>
+            <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="../index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="gallery.html">Portfolio</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+            <div class="footer-services"><h4>Our Services</h4><ul><li><a href="services.html#lawn-mowing">Lawn Mowing</a></li><li><a href="services.html#mulching">Mulching</a></li><li><a href="services.html#aerating">Aerating</a></li><li><a href="services.html#hedge-trimming">Hedge Trimming</a></li><li><a href="services.html#spring-cleanup">Seasonal Cleanup</a></li></ul></div>
+            <div class="footer-contact"><h4>Get In Touch</h4><ul><li><i class="fas fa-phone-alt"></i><a href="tel:860-518-1860">(860) 518-1860</a></li><li><i class="fas fa-envelope"></i><a href="mailto:powerslandscapingllc@gmail.com">powerslandscapingllc@gmail.com</a></li><li><i class="fas fa-map-marker-alt"></i><span>146 Springside Ave<br>New Haven, CT</span></li></ul></div>
+        </div></div></div>
+        <div class="footer-bottom"><div class="container"><p>&copy; 2026 Powers Landscaping LLC. All rights reserved.</p><p>Serving Connecticut with pride</p></div></div>
+    </footer>
+    <button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+    <script src="../js/main.js"></script>
+</body>
+</html>
