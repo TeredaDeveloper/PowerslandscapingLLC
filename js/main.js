@@ -555,7 +555,7 @@ function initContactForm() {
 
 
 /* ========================================
-   PORTFOLIO CAROUSEL - Simple CSS animation + click to expand
+   PORTFOLIO CAROUSEL - Auto-scroll + Physics swipe
    ======================================== */
 function initPortfolioCarousel() {
     const carousel = document.querySelector('.portfolio-carousel');
@@ -565,65 +565,124 @@ function initPortfolioCarousel() {
     const slides = Array.from(track.querySelectorAll('.carousel-slide'));
     if (slides.length === 0) return;
     
-    // Clone all slides for seamless loop
+    // Clone slides for infinite loop
     slides.forEach(slide => {
         const clone = slide.cloneNode(true);
         track.appendChild(clone);
     });
     
-    // CSS animation for smooth infinite scroll
-    const totalWidth = slides.reduce((sum, slide) => {
-        return sum + slide.offsetWidth + 20; // 20px gap
-    }, 0);
+    // Variables
+    let scrollPos = 0;
+    let velocity = 0;
+    let isHovering = false;
+    let isTouching = false;
+    let touchStartX = 0;
+    let touchStartScroll = 0;
+    let lastTouchX = 0;
+    let lastTouchTime = 0;
+    const autoSpeed = 0.8; // Auto-scroll speed (slower)
+    const friction = 0.95; // Momentum decay
+    const minVelocity = 0.1;
     
-    // Create keyframe animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes portfolioScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-${totalWidth}px); }
+    // Get total width of original slides
+    function getLoopWidth() {
+        let width = 0;
+        for (let i = 0; i < slides.length; i++) {
+            width += slides[i].offsetWidth + 20;
         }
-        .carousel-track.animating {
-            animation: portfolioScroll 40s linear infinite;
+        return width;
+    }
+    
+    // Main animation loop
+    function animate() {
+        const loopWidth = getLoopWidth();
+        
+        // Apply velocity (from swipe momentum)
+        if (Math.abs(velocity) > minVelocity) {
+            scrollPos += velocity;
+            velocity *= friction;
+        } else if (!isHovering && !isTouching) {
+            // Auto-scroll when not interacting
+            scrollPos += autoSpeed;
         }
-    `;
-    document.head.appendChild(style);
+        
+        // Loop back seamlessly
+        if (scrollPos >= loopWidth) {
+            scrollPos -= loopWidth;
+        } else if (scrollPos < 0) {
+            scrollPos += loopWidth;
+        }
+        
+        track.style.transform = `translateX(-${scrollPos}px)`;
+        requestAnimationFrame(animate);
+    }
     
-    // Start animation
-    track.classList.add('animating');
-    
-    // Pause on hover/touch
+    // Desktop: pause on hover
     carousel.addEventListener('mouseenter', () => {
-        track.style.animationPlayState = 'paused';
+        isHovering = true;
+        velocity = 0;
     });
     carousel.addEventListener('mouseleave', () => {
-        track.style.animationPlayState = 'running';
+        isHovering = false;
     });
     
-    // Mobile touch - pause while touching
-    carousel.addEventListener('touchstart', () => {
-        track.style.animationPlayState = 'paused';
+    // Mobile touch with physics
+    carousel.addEventListener('touchstart', (e) => {
+        isTouching = true;
+        velocity = 0;
+        touchStartX = e.touches[0].clientX;
+        touchStartScroll = scrollPos;
+        lastTouchX = touchStartX;
+        lastTouchTime = Date.now();
     }, { passive: true });
     
-    carousel.addEventListener('touchend', () => {
-        setTimeout(() => {
-            track.style.animationPlayState = 'running';
-        }, 2000);
+    carousel.addEventListener('touchmove', (e) => {
+        if (!isTouching) return;
+        const touchX = e.touches[0].clientX;
+        const diff = touchStartX - touchX;
+        scrollPos = touchStartScroll + diff;
+        
+        // Track velocity for momentum
+        const now = Date.now();
+        const dt = now - lastTouchTime;
+        if (dt > 0) {
+            velocity = (lastTouchX - touchX) / dt * 16; // Normalize to ~60fps
+        }
+        lastTouchX = touchX;
+        lastTouchTime = now;
     }, { passive: true });
     
-    // Add click handlers to ALL carousel slides (including clones) for lightbox
+    carousel.addEventListener('touchend', (e) => {
+        isTouching = false;
+        // Velocity already set from touchmove, momentum continues in animate()
+    }, { passive: true });
+    
+    // Click to open lightbox
     track.querySelectorAll('.carousel-slide').forEach(slide => {
         slide.style.cursor = 'pointer';
+        let touchMoved = false;
+        
+        slide.addEventListener('touchstart', () => {
+            touchMoved = false;
+        }, { passive: true });
+        
+        slide.addEventListener('touchmove', () => {
+            touchMoved = true;
+        }, { passive: true });
+        
         slide.addEventListener('click', (e) => {
+            if (touchMoved) return; // Don't open if it was a swipe
             const img = slide.querySelector('img');
             if (img && img.src) {
                 e.preventDefault();
                 e.stopPropagation();
-                // Trigger lightbox via custom event
                 document.dispatchEvent(new CustomEvent('openLightbox', { detail: { src: img.src } }));
             }
         });
     });
+    
+    // Start
+    animate();
 }
 
 // Add to DOMContentLoaded

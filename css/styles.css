@@ -4147,6 +4147,7 @@ body.menu-open {
     gap: 20px;
     padding: 0 40px;
     width: max-content;
+    will-change: transform;
 }
 
 .carousel-slide {
