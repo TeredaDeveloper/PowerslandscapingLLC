@@ -3749,6 +3749,10 @@ body.menu-open {
     object-fit: contain !important;
     border-radius: 8px !important;
     box-shadow: 0 10px 50px rgba(0,0,0,0.5) !important;
+    display: block !important;
+    margin: auto !important;
+    position: relative !important;
+    z-index: 100 !important;
 }
 
 .lightbox-nav {
@@ -3896,26 +3900,31 @@ body.menu-open {
    MOBILE VIBRANCE BOOST
    ======================================== */
 @media (max-width: 768px) {
-    /* Boost saturation on mobile devices */
-    body {
+    /* Boost saturation on specific elements only - not body (breaks fixed positioning) */
+    .section-brand,
+    .section-white,
+    .hero,
+    .page-hero,
+    .footer-main {
         filter: saturate(1.15);
         -webkit-filter: saturate(1.15);
-    }
-    
-    /* Specific color boosts for key elements */
-    .section-brand,
-    .btn-primary,
-    .navbar,
-    .footer {
-        filter: saturate(1.1);
-        -webkit-filter: saturate(1.1);
     }
     
     /* Make greens pop more */
     .text-brand,
     .text-brand-light,
-    .section-tag {
+    .section-tag,
+    .btn-primary,
+    .btn-accent {
         filter: saturate(1.2) brightness(1.05);
         -webkit-filter: saturate(1.2) brightness(1.05);
+    }
+    
+    /* Images get a slight boost */
+    .portfolio-item img,
+    .gallery-item img,
+    .service-detail-image img {
+        filter: saturate(1.1);
+        -webkit-filter: saturate(1.1);
     }
 }
