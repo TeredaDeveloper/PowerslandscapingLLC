@@ -3828,3 +3828,66 @@ body.menu-open {
         right: calc(50% - 70px) !important;
     }
 }
+
+/* ========================================
+   TEREDA BRANDING - Cyberpunk Style
+   ======================================== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
+
+.tereda-credit {
+    text-align: center;
+    padding: 15px 0 0;
+    margin-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tereda-credit a {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ff0040;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-decoration: none;
+    text-shadow: 
+        0 0 5px #ff0040,
+        0 0 10px #ff0040,
+        0 0 20px rgba(255, 0, 64, 0.5);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tereda-credit a:hover {
+    color: #ff3366;
+    text-shadow: 
+        0 0 5px #ff3366,
+        0 0 15px #ff3366,
+        0 0 30px #ff3366,
+        0 0 50px rgba(255, 51, 102, 0.6);
+    letter-spacing: 5px;
+}
+
+.tereda-credit .powered-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+}
+
+/* Subtle glitch animation on hover */
+.tereda-credit a:hover .tereda-name {
+    animation: glitch 0.3s ease;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 1px); }
+    40% { transform: translate(2px, -1px); }
+    60% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
+    100% { transform: translate(0); }
+}
