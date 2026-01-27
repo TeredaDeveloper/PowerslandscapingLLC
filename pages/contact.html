@@ -69,15 +69,17 @@
                     <div class="contact-form-card">
                         <h3>Get Free Estimate</h3>
                         <p>Fill out the form and we'll get back to you within 24 hours.</p>
-                        <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
-                            <input type="hidden" name="form-name" value="contact">
-                            <p class="hidden" style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+                        <form class="contact-form" id="contactForm" name="contact" method="POST" action="https://formsubmit.co/powerslandscapingllc@gmail.com" enctype="multipart/form-data">
+                            <input type="hidden" name="_subject" value="New Quote Request from Website">
+                            <input type="hidden" name="_captcha" value="true">
+                            <input type="hidden" name="_next" value="https://www.powerslandscapingllc.com/pages/contact.html?success=true">
+                            <input type="text" name="_honey" style="display:none">
                             <div class="form-row"><div class="form-group"><label for="firstName">First Name *</label><input type="text" id="firstName" name="firstName" required></div><div class="form-group"><label for="lastName">Last Name *</label><input type="text" id="lastName" name="lastName" required></div></div>
                             <div class="form-row"><div class="form-group"><label for="email">Email *</label><input type="email" id="email" name="email" required></div><div class="form-group"><label for="phone">Phone *</label><input type="tel" id="phone" name="phone" required></div></div>
-                            <div class="form-group"><label for="address">Property Address</label><input type="text" id="address" name="address" placeholder="123 Main St, City, CT"></div>
+                            <div class="form-group"><label for="address">Property Address (Optional)</label><input type="text" id="address" name="address" placeholder="123 Main St, City, CT"></div>
                             <div class="form-group"><label for="service">Service Interested In</label><select id="service" name="service"><option value="">Select a service...</option><option value="lawn-mowing">Lawn Mowing</option><option value="mulching">Mulching</option><option value="aerating">Aeration & Overseeding</option><option value="hedge-trimming">Shrub & Hedge Trimming</option><option value="seasonal-cleanup">Seasonal Cleanup</option><option value="full-maintenance">Full Property Maintenance</option><option value="other">Other</option></select></div>
                             <div class="form-group"><label for="message">Tell Us About Your Project</label><textarea id="message" name="message" rows="4" placeholder="Describe your lawn, property size, and what you're looking for..."></textarea></div>
-                            <div class="form-group"><label>Upload Photos of Your Property (Optional)</label><div class="dropzone" id="dropzone"><i class="fas fa-cloud-upload-alt"></i><p>Drag & drop photos here or <span>click to browse</span></p><small>Max 10MB per file. Images only.</small></div><input type="file" id="fileInput" name="photos" multiple accept="image/*" style="display: none;"><div class="file-list" id="fileList"></div></div>
+                            <div class="form-group"><label>Upload Photos of Your Property (Optional)</label><input type="file" name="attachment" multiple accept="image/*" style="margin-top:10px;"><small style="display:block;margin-top:5px;color:#666;">Max 5MB total. Images only.</small></div>
                             <button type="submit" class="btn btn-primary btn-full">Send Message <i class="fas fa-paper-plane"></i></button>
                         </form>
                     </div>
