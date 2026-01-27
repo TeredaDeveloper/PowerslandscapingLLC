@@ -231,7 +231,7 @@ function initLightbox() {
     if (!lightbox) {
         lightbox = document.createElement('div');
         lightbox.id = 'lightbox';
-        lightbox.className = 'lightbox';
+        // NO class - only use ID for styling to avoid conflicts
         lightbox.innerHTML = `
             <div class="lightbox-backdrop"></div>
             <div class="lightbox-container">
@@ -277,12 +277,6 @@ function initLightbox() {
         img.src = images[currentIndex];
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
-        // Hide swipe hint after 2 seconds
-        setTimeout(() => {
-            const hint = lightbox.querySelector('.lightbox-swipe-hint');
-            if (hint) hint.style.opacity = '0';
-        }, 2000);
     }
     
     function closeLightbox() {

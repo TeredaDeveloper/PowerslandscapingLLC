@@ -1,11 +1,9 @@
-/* LIGHTBOX - FINAL FIX WITH !important */
+/* LIGHTBOX - SIMPLE CENTERED */
 
 #lightbox {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
     background: rgba(0, 0, 0, 0.95) !important;
@@ -13,11 +11,6 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 0 !important;
-    padding: 0 !important;
 }
 
 #lightbox.active {
@@ -29,46 +22,29 @@
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
     width: 100% !important;
     height: 100% !important;
 }
 
 #lightbox .lightbox-container {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 100% !important;
-    height: 100% !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
 }
 
 #lightbox .lightbox-image {
-    display: block !important;
     max-width: 85vw !important;
     max-height: 85vh !important;
-    width: auto !important;
-    height: auto !important;
-    margin: auto !important;
     object-fit: contain !important;
     border-radius: 8px !important;
-    position: relative !important;
-    left: auto !important;
-    right: auto !important;
-    top: auto !important;
-    bottom: auto !important;
-    transform: none !important;
 }
 
 #lightbox .lightbox-nav {
-    position: absolute !important;
+    position: fixed !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     width: 50px !important;
@@ -87,12 +63,10 @@
 
 #lightbox .lightbox-prev {
     left: 30px !important;
-    right: auto !important;
 }
 
 #lightbox .lightbox-next {
     right: 30px !important;
-    left: auto !important;
 }
 
 #lightbox .lightbox-swipe-hint,
@@ -113,26 +87,30 @@
     
     #lightbox .lightbox-swipe-hint {
         display: flex !important;
-        position: absolute !important;
-        bottom: 100px !important;
-        left: 0 !important;
-        right: 0 !important;
+        position: fixed !important;
+        bottom: 120px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
         justify-content: center !important;
+        align-items: center !important;
         gap: 12px !important;
         color: rgba(255,255,255,0.7) !important;
         font-size: 14px !important;
         z-index: 1000000 !important;
+        width: auto !important;
     }
     
     #lightbox .lightbox-close-hint {
         display: block !important;
-        position: absolute !important;
-        bottom: 60px !important;
-        left: 0 !important;
-        right: 0 !important;
+        position: fixed !important;
+        bottom: 80px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
         text-align: center !important;
         color: rgba(255,255,255,0.5) !important;
         font-size: 12px !important;
         z-index: 1000000 !important;
+        width: auto !important;
+        white-space: nowrap !important;
     }
 }
