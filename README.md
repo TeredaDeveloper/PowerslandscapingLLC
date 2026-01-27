@@ -1,43 +1,19 @@
-# Powers Landscaping LLC
+# Powers Landscaping LLC Website
 
-Professional landscaping services website for Powers Landscaping LLC based in Connecticut.
+Professional landscaping website for Powers Landscaping LLC, Connecticut.
 
-## Services
-- Lawn Mowing
-- Mulching
-- Aerating
-- Hedge & Bush Trimming
-- Spring & Fall Cleanup
-- Demo Work
-- Rehab Work
+## Important Files - DO NOT DELETE
 
-## Tech Stack
-- Static HTML5/CSS3/JavaScript
-- No frameworks, no dependencies
-- EmailJS for form submissions with file attachments
-- Mobile-first responsive design
-
-## Project Structure
-```
-powerslandscapingllc.com/
-├── index.html          # Main landing page
-├── css/
-│   └── styles.css      # All styles
-├── js/
-│   ├── main.js         # General functionality
-│   └── drag-drop.js    # File upload handling
-├── assets/
-│   ├── images/         # Site images
-│   └── logos/          # Brand logos
-└── pages/
-    ├── services.html   # Services detail
-    ├── gallery.html    # Project portfolio
-    └── contact.html    # Contact + project submission
-```
-
-## Deployment
-Static hosting on Netlify with Cloudflare DNS.
+- `googleee71ef7fe451eca8.html` - **CRITICAL: Google Search Console verification file. DO NOT REMOVE.**
+- `robots.txt` - Search engine crawl rules
+- `sitemap.xml` - Site map for search engines
 
 ## Contact
-- Phone: 860-518-1860
-- Website: powerslandscapingllc.com
+
+- Phone: (860) 518-1860
+- Email: powerslandscapingllc@gmail.com
+- Address: 146 Springside Ave, New Haven, CT
+
+## Deployment
+
+Hosted on Netlify, auto-deploys from GitHub main branch.
