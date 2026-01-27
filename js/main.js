@@ -349,18 +349,18 @@ function initLightbox() {
     let touchStartX = 0;
     let touchStartY = 0;
     
-    lightbox.addEventListener('touchstart', (e) => {
+    function handleTouchStart(e) {
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
-    }, { passive: true });
+    }
     
-    lightbox.addEventListener('touchend', (e) => {
+    function handleTouchEnd(e) {
         const touchEndX = e.changedTouches[0].screenX;
         const touchEndY = e.changedTouches[0].screenY;
         const diffX = touchStartX - touchEndX;
         const diffY = touchStartY - touchEndY;
         
-        // Horizontal swipe
+        // Horizontal swipe - works anywhere
         if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
             e.preventDefault();
             if (diffX > 0) showNext();
@@ -370,7 +370,17 @@ function initLightbox() {
         else if (Math.abs(diffX) < 15 && Math.abs(diffY) < 15) {
             closeLightbox();
         }
-    }, { passive: false });
+    }
+    
+    // Add swipe to all lightbox elements
+    lightbox.addEventListener('touchstart', handleTouchStart, { passive: true });
+    lightbox.addEventListener('touchend', handleTouchEnd, { passive: false });
+    backdrop.addEventListener('touchstart', handleTouchStart, { passive: true });
+    backdrop.addEventListener('touchend', handleTouchEnd, { passive: false });
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd, { passive: false });
+    img.addEventListener('touchstart', handleTouchStart, { passive: true });
+    img.addEventListener('touchend', handleTouchEnd, { passive: false });
 }
 
 /* ========================================
