@@ -1,0 +1,8 @@
+<svg viewBox="0 0 180 60" xmlns="http://www.w3.org/2000/svg">
+    <!-- Outer border -->
+    <rect x="3" y="3" width="174" height="54" fill="none" stroke="#1e5631" stroke-width="7"/>
+    <!-- POWERS - moved down slightly -->
+    <text x="90" y="32" fill="white" font-family="Impact, Arial Black, sans-serif" font-size="21" font-weight="900" text-anchor="middle" letter-spacing="5">POWERS</text>
+    <!-- LANDSCAPING - moved down -->
+    <text x="90" y="46" fill="#4a9c5d" font-family="Impact, Arial Black, sans-serif" font-size="10" font-weight="900" text-anchor="middle" letter-spacing="5">LANDSCAPING</text>
+</svg>

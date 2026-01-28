@@ -1,0 +1,9 @@
+<svg viewBox="0 0 180 60" xmlns="http://www.w3.org/2000/svg">
+    <!-- Outer heavy border -->
+    <rect x="2" y="2" width="176" height="56" fill="none" stroke="#1e5631" stroke-width="5"/>
+    <!-- Inner border -->
+    <rect x="10" y="10" width="160" height="40" fill="none" stroke="#1e5631" stroke-width="2"/>
+    <!-- Text centered - dark for light bg -->
+    <text x="90" y="33" fill="#1e5631" font-family="Impact, Arial Black, sans-serif" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="3">POWERS</text>
+    <text x="90" y="47" fill="#143d22" font-family="Impact, Arial Black, sans-serif" font-size="9" text-anchor="middle" letter-spacing="3">LANDSCAPING</text>
+</svg>
